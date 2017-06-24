@@ -282,7 +282,7 @@ public class Form extends javax.swing.JFrame {
         jPanel1.update(g2);
         
         for (int x = 0; x < mainCircleContainer.size(); x++){
-            for(int i = 0; i < circContainer.size(); i++){
+            for(int i = 0; i < mainCircleContainer.get(x).size(); i++){
                 jPanel1.add(mainLabelContainer.get(x).get(i));
                 g2.draw(mainCircleContainer.get(x).get(i));
             }
