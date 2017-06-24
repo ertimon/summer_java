@@ -89,6 +89,11 @@ public class Form extends javax.swing.JFrame {
 
         jButton3.setText("Prev");
         jButton3.setEnabled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Next");
         jButton4.setEnabled(false);
@@ -183,16 +188,7 @@ public class Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1StateChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if(jTextField1.getText().length() == 0) return;
-        
-        if(curr_pos - 1 < 0)
-        {
-            jButton4.setEnabled(true);
-            jButton3.setEnabled(false);
-            return;
-        }
-        
-        curr_pos--;
+       
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -205,10 +201,25 @@ public class Form extends javax.swing.JFrame {
             return;
         }
         
+        jPanel1.removeAll();
         curr_pos++;
         DrawCurr(curr_pos);
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(jTextField1.getText().length() == 0) return;
+        
+        if(curr_pos - 1 < 0)
+        {
+            jButton4.setEnabled(true);
+            jButton3.setEnabled(false);
+            return;
+        }
+        
+        jPanel1.removeAll();
+        curr_pos--;
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void GetNums(){
         String strArr[] = jTextField1.getText().split(" ");
