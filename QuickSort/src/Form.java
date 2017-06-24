@@ -267,14 +267,15 @@ public class Form extends javax.swing.JFrame {
                   j--;
             }
       }
-
+      
+      mainCircleContainer.add(circContainer);
+      mainLabelContainer.add(labelContainer);
+      
       if (left < j)
             quickSort(arr, left, j, dep + step);
       if (i < right)
             quickSort(arr, i, right, dep + step);
       
-      mainCircleContainer.add(circContainer);
-      mainLabelContainer.add(labelContainer);
     }
     
     private void DrawAll () {
