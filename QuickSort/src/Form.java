@@ -52,7 +52,7 @@ public class Form extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setLabel("GO!");
+        jButton1.setText("GO");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
