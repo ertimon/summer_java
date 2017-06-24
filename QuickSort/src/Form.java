@@ -1,3 +1,4 @@
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 
@@ -18,13 +19,12 @@ public class Form extends javax.swing.JFrame {
     }
     
     private Ellipse2D circbuffer;
-    private Graphics2D g2;
+    private static Graphics2D g2;
     private JLabel label;
     
     final int radius = 20;
     final int step = 25;
     int numArr[], curr_pos = 0;
-    boolean draw = true;
     
     private List<Ellipse2D> circContainer = new ArrayList();
     private List<JLabel> labelContainer = new ArrayList();
@@ -145,22 +145,16 @@ public class Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String result = "";
         if(jTextField1.getText().length() == 0){
-            JOptionPane.showMessageDialog(null, "Введи массив, сука!");
+            JOptionPane.showMessageDialog(null, "Введите массив");
             return;
         }
-        
-        if (g2 == null) g2 = (Graphics2D) jPanel1.getGraphics();
-        jPanel1.update(g2);
-        
+
         GetNums();
         quickSort(numArr, 0, numArr.length - 1, 0);
+        SetNums();
         
-        for(int i = 0; i < numArr.length; i++)
-            result += Integer.toString(numArr[i]) + " ";
-        
-        jTextField1.setText(result);
+        DrawAll();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -203,7 +197,7 @@ public class Form extends javax.swing.JFrame {
         
         jPanel1.removeAll();
         curr_pos++;
-        DrawCurr(curr_pos);
+        //DrawCurr(curr_pos);
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -219,6 +213,7 @@ public class Form extends javax.swing.JFrame {
         
         jPanel1.removeAll();
         curr_pos--;
+        //DrawCurr(curr_pos);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void GetNums(){
@@ -229,23 +224,32 @@ public class Form extends javax.swing.JFrame {
         }
     }
     
+    private void SetNums(){
+        jTextField1.setText(null);
+        for(int i = 0; i < numArr.length; i++)
+            jTextField1.setText(jTextField1.getText() + Integer.toString(numArr[i]) + " ");
+    }
+    
     private void quickSort(int arr[], int left, int right, int dep) {
       int i = left, j = right;
       int tmp;
       int pivot = arr[(left + right) / 2];
       
+      labelContainer.clear();
+      circContainer.clear();
+      
       for(int q = 0; q < numArr.length; q++){
         circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + q*dep, radius, radius);
-        circContainer.add(circbuffer);
 
         label = new JLabel(Integer.toString(numArr[q]), JLabel.CENTER);
         label.setVisible(true);
         label.setSize(50, 200);
         label.setLocation(-10 + 30*q, -85 + q*dep);
-
+        
+        // Добавляем новые элементы
+        circContainer.add(circbuffer);
         labelContainer.add(label);
       }
-      DrawAll();
       
       while (i <= j) {
             while (arr[i] < pivot)
@@ -253,6 +257,9 @@ public class Form extends javax.swing.JFrame {
             while (arr[j] > pivot)
                   j--;
             if (i <= j) {
+                  labelContainer.get(i).setBackground(Color.red);
+                  labelContainer.get(j).setBackground(Color.green);
+                
                   tmp = arr[i];
                   arr[i] = arr[j];
                   arr[j] = tmp;
@@ -268,37 +275,19 @@ public class Form extends javax.swing.JFrame {
       
       mainCircleContainer.add(circContainer);
       mainLabelContainer.add(labelContainer);
-      
-      labelContainer.clear();
-      circContainer.clear();
     }
     
     private void DrawAll () {
-        if(!draw) return;
+        if (g2 == null) g2 = (Graphics2D) jPanel1.getGraphics();
+        jPanel1.update(g2);
         
-        for (int x = 0; x < circContainer.size(); x++){
-            jPanel1.add(labelContainer.get(x));
-            g2.draw(circContainer.get(x));
-
-            /**try{
-                Thread.sleep(40);
-            }catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-        }
-        
-        jPanel1.revalidate();
-    }
-    
-    private void DrawCurr(int step) {
-        if(!draw) return;
-        
-        for(int l = 0; l < step; l++){
-            for (int x = 0; x < mainCircleContainer.get(l).size(); x++){
-                jPanel1.add(mainLabelContainer.get(l).get(x));
-                g2.draw(mainCircleContainer.get(l).get(x));
+        for (int x = 0; x < mainCircleContainer.size(); x++){
+            for(int i = 0; i < circContainer.size(); i++){
+                jPanel1.add(mainLabelContainer.get(x).get(i));
+                g2.draw(mainCircleContainer.get(x).get(i));
             }
         }
+        
         jPanel1.revalidate();
     }
     
@@ -325,6 +314,8 @@ public class Form extends javax.swing.JFrame {
                 new Form().setVisible(true);
             }
         });
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
