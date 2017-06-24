@@ -149,9 +149,9 @@ public class Form extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Введите массив!");
             return;
         }
-
+        
         GetNums();
-        quickSort(numArr, 0, numArr.length - 1, 0);
+        quickSort(0, numArr.length - 1, 0);
         SetNums();
         
         DrawAll();
@@ -196,6 +196,7 @@ public class Form extends javax.swing.JFrame {
         }
         
         jPanel1.removeAll();
+        jPanel1.repaint();
         curr_pos++;
         //DrawCurr(curr_pos);
         
@@ -212,6 +213,7 @@ public class Form extends javax.swing.JFrame {
         }
         
         jPanel1.removeAll();
+        jPanel1.repaint();
         curr_pos--;
         //DrawCurr(curr_pos);
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -230,10 +232,10 @@ public class Form extends javax.swing.JFrame {
             jTextField1.setText(jTextField1.getText() + Integer.toString(numArr[i]) + " ");
     }
     
-    private void quickSort(int arr[], int left, int right, int dep) {
+    private void quickSort(int left, int right, int dep) {
       int i = left, j = right;
       int tmp;
-      int pivot = arr[(left + right) / 2];
+      int pivot = numArr[(left + right) / 2];
       
       labelContainer.clear();
       circContainer.clear();
@@ -252,17 +254,17 @@ public class Form extends javax.swing.JFrame {
       }
       
       while (i <= j) {
-            while (arr[i] < pivot)
+            while (numArr[i] < pivot)
                   i++;
-            while (arr[j] > pivot)
+            while (numArr[j] > pivot)
                   j--;
             if (i <= j) {
                   labelContainer.get(i).setBackground(Color.red);
                   labelContainer.get(j).setBackground(Color.green);
                 
-                  tmp = arr[i];
-                  arr[i] = arr[j];
-                  arr[j] = tmp;
+                  tmp = numArr[i];
+                  numArr[i] = numArr[j];
+                  numArr[j] = tmp;
                   i++;
                   j--;
             }
@@ -272,9 +274,9 @@ public class Form extends javax.swing.JFrame {
       mainLabelContainer.add(labelContainer);
       
       if (left < j)
-            quickSort(arr, left, j, dep + step);
+            quickSort(left, j, dep + step);
       if (i < right)
-            quickSort(arr, i, right, dep + step);
+            quickSort(i, right, dep + step);
       
     }
     
