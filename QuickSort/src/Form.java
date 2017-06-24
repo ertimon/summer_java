@@ -146,7 +146,7 @@ public class Form extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(jTextField1.getText().length() == 0){
-            JOptionPane.showMessageDialog(null, "Введите массив!");
+            JOptionPane.showMessageDialog(null, "Введите массив!!!!");
             return;
         }
 
