@@ -163,7 +163,7 @@ public class Form extends javax.swing.JFrame {
         jPanel1.update(g2);
         
         GetNums();
-        //mainList.add(numArr.clone()); 
+        mainList.add(numArr.clone()); 
         quickSort(0, numArr.length - 1);
         
         if(draw){
@@ -207,8 +207,10 @@ public class Form extends javax.swing.JFrame {
         }else{
             jButton3.setEnabled(true);
         }
+         
+        //JOptionPane.showMessageDialog(null, mainList.size());
         
-        if(curr_pos + 1 > mainList.size())
+        if(curr_pos + 1> mainList.size())
         {
             jButton4.setEnabled(false);
             jButton3.setEnabled(true);
@@ -284,7 +286,8 @@ public class Form extends javax.swing.JFrame {
                   tmp = numArr[i];
                   numArr[i] = numArr[j];
                   numArr[j] = tmp;
-                  mainList.add(numArr.clone()); //ADD
+                  if(i != j)
+                    mainList.add(numArr.clone()); //ADD
                   i++;
                   j--;
             }
