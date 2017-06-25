@@ -232,10 +232,10 @@ public class Form extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if(curr_pos - 2 < 0)
         {
-            jButton4.setEnabled(true);
             jButton3.setEnabled(false);
             return;
         }
+        jButton4.setEnabled(true);
         
         //Нужно удалить всё и отрисовать заного
         jPanel1.removeAll();
