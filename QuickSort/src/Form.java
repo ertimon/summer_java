@@ -19,7 +19,6 @@ public class Form extends javax.swing.JFrame {
     
     private Ellipse2D circbuffer;
     private Graphics2D g2;
-    private JLabel label;
     
     final int radius = 20;
     final int step = 25;
@@ -154,9 +153,11 @@ public class Form extends javax.swing.JFrame {
         
         GetNums();
         quickSort(0, numArr.length - 1);
-        SetNums();
         
-        if(draw) DrawAll();
+        if(draw){
+            SetNums();
+            DrawAll();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -199,6 +200,9 @@ public class Form extends javax.swing.JFrame {
         {
             jButton4.setEnabled(false);
             jButton3.setEnabled(true);
+            
+            SetNums();
+            
             return;
         }
         
@@ -242,7 +246,9 @@ public class Form extends javax.swing.JFrame {
         
         for(int i = 0; i < numArr.length; i++)
             result += Integer.toString(numArr[i]) + " ";
-        jTextField1.setText(result);       
+        jTextField1.setText(result);    
+        
+        //JOptionPane.showMessageDialog(null, "Массив отсортирован, наслаждайся!");
     }
     
     private void quickSort(int left, int right) {
