@@ -241,7 +241,7 @@ public class Form extends javax.swing.JFrame {
     
     private void quickSort(int left, int right) {
       //Добавляем в общий список только на первом нажатии
-      if(tap_count == 1) mainList.add(numArr);  
+      if(tap_count == 1) mainList.add(numArr.clone());  
         
       int i = left, j = right;
       int tmp;
