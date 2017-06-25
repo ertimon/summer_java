@@ -1,13 +1,13 @@
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
@@ -23,15 +23,11 @@ public class Form extends javax.swing.JFrame {
     
     final int radius = 20;
     final int step = 25;
-    int u = -85;
-    int numArr[], curr_pos = 0;
+    int numArr[], curr_pos = 0, tap_count = 0;
     boolean draw = true;
     
-    private List<Ellipse2D> circContainer = new ArrayList();
-    private List<JLabel> labelContainer = new ArrayList();
-    
-    private List<List<Ellipse2D>> mainCircleContainer = new ArrayList();
-    private List<List<JLabel>> mainLabelContainer = new ArrayList();
+    //Список состояний массива
+    private List<int[]> mainList = new ArrayList<int[]>();
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -146,23 +142,23 @@ public class Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String result = "";
+        //jPanel1.removeAll();
+        
         if(jTextField1.getText().length() == 0){
             JOptionPane.showMessageDialog(null, "Введи массив, сука!");
             return;
         }
         
+        tap_count++;
+        
         if (g2 == null) g2 = (Graphics2D) jPanel1.getGraphics();
         jPanel1.update(g2);
         
         GetNums();
+        quickSort(0, numArr.length - 1);
+        SetNums();
         
-        quickSort(numArr, 0, numArr.length - 1, 0);
-        
-        for(int i = 0; i < numArr.length; i++)
-            result += Integer.toString(numArr[i]) + " ";
-        
-        jTextField1.setText(result);
+        DrawAll();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -194,24 +190,27 @@ public class Form extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if(jTextField1.getText().length() == 0) return;
+        //if(jTextField1.getText().length() == 0) return;
         
-        if(curr_pos + 1 > mainLabelContainer.size())
+        if(curr_pos == 0){
+            draw = false;
+            jButton1ActionPerformed(null);
+        }
+        
+        if(curr_pos + 1 > mainList.size())
         {
             jButton4.setEnabled(false);
             jButton3.setEnabled(true);
             return;
         }
         
-        jPanel1.removeAll();
+        //jPanel1.removeAll();
         curr_pos++;
         DrawCurr(curr_pos);
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(jTextField1.getText().length() == 0) return;
-        
         if(curr_pos - 1 < 0)
         {
             jButton4.setEnabled(true);
@@ -221,6 +220,7 @@ public class Form extends javax.swing.JFrame {
         
         jPanel1.removeAll();
         curr_pos--;
+        DrawCurr(curr_pos);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void GetNums(){
@@ -231,84 +231,68 @@ public class Form extends javax.swing.JFrame {
         }
     }
     
-    private void quickSort(int arr[], int left, int right, int dep) {
+    private void SetNums(){
+        String result = "";
+        
+        for(int i = 0; i < numArr.length; i++)
+            result += Integer.toString(numArr[i]) + " ";
+        jTextField1.setText(result);       
+    }
+    
+    private void quickSort(int left, int right) {
+      //Добавляем в общий список только на первом нажатии
+      if(tap_count == 1) mainList.add(numArr);  
+        
       int i = left, j = right;
       int tmp;
-      int pivot = arr[(left + right) / 2];
-      
-      for(int q = 0; q < right-left+1; q++){
-        circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 , radius, radius);
-        circContainer.add(circbuffer);
+      int pivot = numArr[(left + right) / 2];
 
-        label = new JLabel(Integer.toString(numArr[left+q]), JLabel.CENTER);
-        label.setVisible(true);
-        label.setSize(50, 200);
-        label.setLocation(-10 + 30*q, u );
-
-        labelContainer.add(label);
-      }
-      DrawAll();
-      
+      /* partition */
       while (i <= j) {
-            while (arr[i] < pivot)
+            while (numArr[i] < pivot)
                   i++;
-            while (arr[j] > pivot)
+            while (numArr[j] > pivot)
                   j--;
             if (i <= j) {
-                  tmp = arr[i];
-                  arr[i] = arr[j];
-                  arr[j] = tmp;
+                  tmp = numArr[i];
+                  numArr[i] = numArr[j];
+                  numArr[j] = tmp;
                   i++;
                   j--;
             }
       }
-      if (i==j)
-          j--;
 
-      if (left < j)
-      {     u+=30;
-            quickSort(arr, left, j, dep + step);
+      /* recursion */
+      if (left < j){
+            quickSort(left, j);
       }
-      if (i < right)
-      {     
-            u+=30;
-            quickSort(arr, i, right, dep + step);
+      if (i < right){
+            quickSort(i, right);
       }
-      
-      mainCircleContainer.add(circContainer);
-      mainLabelContainer.add(labelContainer);
-      
-      labelContainer.clear();
-      circContainer.clear();
     }
     
     private void DrawAll () {
         if(!draw) return;
         
-        for (int x = 0; x < circContainer.size(); x++){
-            jPanel1.add(labelContainer.get(x));
-            g2.draw(circContainer.get(x));
+        for(int i = 0; i < mainList.size(); i++){
+            for(int q = 0; q < mainList.get(i).length; q++){
+                circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + 30*i , radius, radius);
 
-            /**try{
-                Thread.sleep(40);
-            }catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+                label = new JLabel(Integer.toString(mainList.get(i)[q]), JLabel.CENTER);
+                label.setVisible(true);
+                label.setSize(50, 200);
+                label.setLocation(-10 + 30*q, -85 + 30*i);
+
+                g2.draw(circbuffer);
+                jPanel1.add(label);
+            }
         }
         
         jPanel1.revalidate();
     }
     
     private void DrawCurr(int step) {
-        if(!draw) return;
         
-        for(int l = 0; l < step; l++){
-            for (int x = 0; x < mainCircleContainer.get(l).size(); x++){
-                jPanel1.add(mainLabelContainer.get(l).get(x));
-                g2.draw(mainCircleContainer.get(l).get(x));
-            }
-        }
-        jPanel1.revalidate();
     }
     
     public static void main(String args[]) {
