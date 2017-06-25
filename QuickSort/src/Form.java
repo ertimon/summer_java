@@ -23,6 +23,7 @@ public class Form extends javax.swing.JFrame {
     
     final int radius = 20;
     final int step = 25;
+    int u = -85;
     int numArr[], curr_pos = 0;
     boolean draw = true;
     
@@ -155,6 +156,7 @@ public class Form extends javax.swing.JFrame {
         jPanel1.update(g2);
         
         GetNums();
+        
         quickSort(numArr, 0, numArr.length - 1, 0);
         
         for(int i = 0; i < numArr.length; i++)
@@ -234,14 +236,14 @@ public class Form extends javax.swing.JFrame {
       int tmp;
       int pivot = arr[(left + right) / 2];
       
-      for(int q = 0; q < numArr.length; q++){
-        circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + q*dep, radius, radius);
+      for(int q = 0; q < right-left+1; q++){
+        circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 , radius, radius);
         circContainer.add(circbuffer);
 
-        label = new JLabel(Integer.toString(numArr[q]), JLabel.CENTER);
+        label = new JLabel(Integer.toString(numArr[right-q]), JLabel.CENTER);
         label.setVisible(true);
         label.setSize(50, 200);
-        label.setLocation(-10 + 30*q, -85 + q*dep);
+        label.setLocation(-10 + 30*q, u );
 
         labelContainer.add(label);
       }
@@ -262,9 +264,14 @@ public class Form extends javax.swing.JFrame {
       }
 
       if (left < j)
+      {     u+=30;
             quickSort(arr, left, j, dep + step);
+      }
       if (i < right)
+      {     
+            u+=30;
             quickSort(arr, i, right, dep + step);
+      }
       
       mainCircleContainer.add(circContainer);
       mainLabelContainer.add(labelContainer);
