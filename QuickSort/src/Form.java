@@ -240,7 +240,7 @@ public class Form extends javax.swing.JFrame {
         circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 , radius, radius);
         circContainer.add(circbuffer);
 
-        label = new JLabel(Integer.toString(numArr[right-q]), JLabel.CENTER);
+        label = new JLabel(Integer.toString(numArr[left+q]), JLabel.CENTER);
         label.setVisible(true);
         label.setSize(50, 200);
         label.setLocation(-10 + 30*q, u );
@@ -262,6 +262,8 @@ public class Form extends javax.swing.JFrame {
                   j--;
             }
       }
+      if (i==j)
+          j--;
 
       if (left < j)
       {     u+=30;
