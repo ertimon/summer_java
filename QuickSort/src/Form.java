@@ -1,5 +1,5 @@
+import java.awt.Color;
 import javax.swing.JOptionPane;
-import javax.swing.JLabel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import java.util.Scanner;
 import javax.swing.JFileChooser;
@@ -27,6 +28,8 @@ public class Form extends javax.swing.JFrame {
     
     //Список состояний массива
     private List<int[]> mainList = new ArrayList<int[]>();
+    //Цвета
+    private List<Color> colorList = new ArrayList<Color>();
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -45,6 +48,12 @@ public class Form extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+        });
+
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
             }
         });
 
@@ -141,17 +150,20 @@ public class Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jPanel1.removeAll();
-        
         if(jTextField1.getText().length() == 0){
             JOptionPane.showMessageDialog(null, "Введи массив, сука!");
             return;
         }
         
+        mainList.clear();
+        jPanel1.removeAll();
+        jPanel1.revalidate();
+        
         if (g2 == null) g2 = (Graphics2D) jPanel1.getGraphics();
         jPanel1.update(g2);
         
         GetNums();
+        //mainList.add(numArr.clone()); 
         quickSort(0, numArr.length - 1);
         
         if(draw){
@@ -209,6 +221,7 @@ public class Form extends javax.swing.JFrame {
         //Нужно удалить всё и отрисовать заного
         jPanel1.removeAll();
         jPanel1.revalidate();
+        jPanel1.update(g2);
         //jPanel1.repaint();
         
         curr_pos++;
@@ -217,7 +230,7 @@ public class Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(curr_pos - 1 < 0)
+        if(curr_pos - 2 < 0)
         {
             jButton4.setEnabled(true);
             jButton3.setEnabled(false);
@@ -227,11 +240,16 @@ public class Form extends javax.swing.JFrame {
         //Нужно удалить всё и отрисовать заного
         jPanel1.removeAll();
         jPanel1.revalidate();
+        jPanel1.update(g2);
         //jPanel1.repaint();
         
         curr_pos--;
         DrawCurr(curr_pos);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+        curr_pos = 0;
+    }//GEN-LAST:event_jTextField1MouseClicked
 
     private void GetNums(){
         String strArr[] = jTextField1.getText().split(" ");
@@ -252,10 +270,6 @@ public class Form extends javax.swing.JFrame {
     }
     
     private void quickSort(int left, int right) {
-      //Добавляем в общий список только на первом нажатии
-      //if(tap_count == 1) 
-          mainList.add(numArr.clone());  
-        
       int i = left, j = right;
       int tmp;
       int pivot = numArr[(left + right) / 2];
@@ -270,6 +284,7 @@ public class Form extends javax.swing.JFrame {
                   tmp = numArr[i];
                   numArr[i] = numArr[j];
                   numArr[j] = tmp;
+                  mainList.add(numArr.clone()); //ADD
                   i++;
                   j--;
             }
@@ -287,7 +302,7 @@ public class Form extends javax.swing.JFrame {
     private void DrawAll () {
         for(int i = 0; i < mainList.size(); i++){
             for(int q = 0; q < mainList.get(i).length; q++){
-                circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + 30*i , radius, radius);
+                //circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + 30*i , radius, radius);
 
                 /**label = new JLabel(Integer.toString(mainList.get(i)[q]), JLabel.CENTER);
                 label.setVisible(true);
@@ -295,7 +310,7 @@ public class Form extends javax.swing.JFrame {
                 label.setLocation(-10 + 30*q, -85 + 30*i);*/
                 
                 g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 30*i);
-                g2.draw(circbuffer);
+                g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 30*i , radius, radius));
                 //jPanel1.add(label);
             }
         }
