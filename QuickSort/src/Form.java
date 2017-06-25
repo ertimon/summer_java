@@ -170,6 +170,7 @@ public class Form extends javax.swing.JFrame {
             SetNums();
             DrawAll();
         }
+        g2.setColor(Color.red); //WTF
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
