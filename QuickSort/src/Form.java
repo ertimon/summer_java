@@ -24,6 +24,7 @@ public class Form extends javax.swing.JFrame {
     
     final int radius = 20;
     final int step = 25;
+    int u = -85;
     int numArr[], curr_pos = 0;
     
     private List<Ellipse2D> circContainer = new ArrayList();
@@ -145,16 +146,23 @@ public class Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       String result = "";
         if(jTextField1.getText().length() == 0){
-            JOptionPane.showMessageDialog(null, "Введите массив!!!!");
+            JOptionPane.showMessageDialog(null, "Введи массив, сука!");
             return;
         }
         
-        GetNums();
-        quickSort(0, numArr.length - 1, 0);
-        SetNums();
+        if (g2 == null) g2 = (Graphics2D) jPanel1.getGraphics();
+        jPanel1.update(g2);
         
-        DrawAll();
+        GetNums();
+        
+        quickSort(numArr, 0, numArr.length - 1, 0);
+        
+        for(int i = 0; i < numArr.length; i++)
+            result += Integer.toString(numArr[i]) + " ";
+        
+        jTextField1.setText(result);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -233,50 +241,54 @@ public class Form extends javax.swing.JFrame {
     }
     
     private void quickSort(int left, int right, int dep) {
-      int i = left, j = right;
+       int i = left, j = right;
       int tmp;
-      int pivot = numArr[(left + right) / 2];
+      int pivot = arr[(left + right) / 2];
       
-      labelContainer.clear();
-      circContainer.clear();
-      
-      for(int q = 0; q < numArr.length; q++){
-        circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + q*dep, radius, radius);
+      for(int q = 0; q < right-left+1; q++){
+        circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 , radius, radius);
+        circContainer.add(circbuffer);
 
-        label = new JLabel(Integer.toString(numArr[q]), JLabel.CENTER);
+        label = new JLabel(Integer.toString(numArr[left+q]), JLabel.CENTER);
         label.setVisible(true);
         label.setSize(50, 200);
-        label.setLocation(-10 + 30*q, -85 + q*dep);
-        
-        // Добавляем новые элементы
-        circContainer.add(circbuffer);
+        label.setLocation(-10 + 30*q, u );
+
         labelContainer.add(label);
       }
+      DrawAll();
       
       while (i <= j) {
-            while (numArr[i] < pivot)
+            while (arr[i] < pivot)
                   i++;
-            while (numArr[j] > pivot)
+            while (arr[j] > pivot)
                   j--;
             if (i <= j) {
-                  labelContainer.get(i).setBackground(Color.red);
-                  labelContainer.get(j).setBackground(Color.green);
-                
-                  tmp = numArr[i];
-                  numArr[i] = numArr[j];
-                  numArr[j] = tmp;
+                  tmp = arr[i];
+                  arr[i] = arr[j];
+                  arr[j] = tmp;
                   i++;
                   j--;
             }
+      }
+      if (i==j)
+          j--;
+
+      if (left < j)
+      {     u+=30;
+            quickSort(arr, left, j, dep + step);
+      }
+      if (i < right)
+      {     
+            u+=30;
+            quickSort(arr, i, right, dep + step);
       }
       
       mainCircleContainer.add(circContainer);
       mainLabelContainer.add(labelContainer);
       
-      if (left < j)
-            quickSort(left, j, dep + step);
-      if (i < right)
-            quickSort(i, right, dep + step);
+      labelContainer.clear();
+      circContainer.clear();
       
     }
     
