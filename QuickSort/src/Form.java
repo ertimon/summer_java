@@ -1,34 +1,36 @@
-import java.awt.BasicStroke;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
 
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
+import myPack.Visualisation;
+        
 public class Form extends javax.swing.JFrame {
-
     public Form() {
         initComponents();
     }
     
-    private Ellipse2D circbuffer;
     private Graphics2D g2;
+    // ???
     
-    final int radius = 20;
-    final int step = 25;
     int numArr[], curr_pos = 0;
     boolean draw = true;
+    long start, end;
     
     //Список состояний массива
     private List<int[]> mainList = new ArrayList<int[]>();
     //Линии, координаты которых основаны на индексах массива
     private List<int[]> linesList = new ArrayList<int[]>();
+        
+    public Visualisation Draw = new Visualisation(mainList, linesList);
+    //Draw.paintComponents(???);
     
     //@SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -168,18 +170,13 @@ public class Form extends javax.swing.JFrame {
         
         mainList.clear();
         linesList.clear();
-        jPanel1.removeAll();
-        jPanel1.revalidate();
-        
-        if (g2 == null) g2 = (Graphics2D) jPanel1.getGraphics();
-        g2.setStroke(new BasicStroke(2));
-        jPanel1.update(g2);
         
         GetNums();
-        mainList.add(numArr.clone()); 
+        mainList.add(numArr.clone());
+        start = System.nanoTime();
         quickSort(0, numArr.length - 1);
-        
-        if(draw) DrawAll();
+        end = System.nanoTime();
+        Draw.repaint();
         SetNums();
             
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -208,10 +205,6 @@ public class Form extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCheckBox1StateChanged
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       
-    }//GEN-LAST:event_formWindowOpened
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if(curr_pos == 0){
             draw = false;
@@ -219,8 +212,6 @@ public class Form extends javax.swing.JFrame {
         }else{
             jButton3.setEnabled(true);
         }
-         
-        //JOptionPane.showMessageDialog(null, mainList.size());
         
         if(curr_pos + 1> mainList.size())
         {
@@ -232,14 +223,8 @@ public class Form extends javax.swing.JFrame {
             return;
         }
         
-        //Нужно удалить всё и отрисовать заного
-        jPanel1.removeAll();
-        jPanel1.revalidate();
-        jPanel1.update(g2);
-        //jPanel1.repaint();
-        
         curr_pos++;
-        DrawCurr(curr_pos);
+        //Draw.repaint_curr(curr_pos);
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -251,14 +236,8 @@ public class Form extends javax.swing.JFrame {
         }
         jButton4.setEnabled(true);
         
-        //Нужно удалить всё и отрисовать заного
-        jPanel1.removeAll();
-        jPanel1.revalidate();
-        jPanel1.update(g2);
-        //jPanel1.repaint();
-        
         curr_pos--;
-        DrawCurr(curr_pos);
+        //Draw.repaint_curr(curr_pos);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
@@ -284,7 +263,7 @@ public class Form extends javax.swing.JFrame {
             result += Integer.toString(numArr[i]) + " ";
         jTextField1.setText(result);    
         
-        //JOptionPane.showMessageDialog(null, "Массив отсортирован, наслаждайся!");
+       JOptionPane.showMessageDialog(null, "Время сортировки: " + (end - start)/1000 + " мс" );
     }
     
     private void quickSort(int left, int right) {
@@ -323,7 +302,7 @@ public class Form extends javax.swing.JFrame {
       }
     }
     
-    private void DrawAll () {
+    /**private void DrawAll () {
         if(!draw) return;
         
         for(int i = 0; i < mainList.size(); i++){
@@ -355,7 +334,7 @@ public class Form extends javax.swing.JFrame {
         }
         
         jPanel1.revalidate();
-    }
+    }*/
     
     public static void main(String args[]) {
         try {
