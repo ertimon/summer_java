@@ -1,5 +1,4 @@
 import java.awt.BasicStroke;
-import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +41,7 @@ public class Form extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -71,7 +71,7 @@ public class Form extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1411, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,6 +108,14 @@ public class Form extends javax.swing.JFrame {
             }
         });
 
+        jCheckBox2.setSelected(true);
+        jCheckBox2.setText("View");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,10 +127,12 @@ public class Form extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,7 +150,8 @@ public class Form extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jCheckBox1)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jCheckBox2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -168,10 +179,9 @@ public class Form extends javax.swing.JFrame {
         mainList.add(numArr.clone()); 
         quickSort(0, numArr.length - 1);
         
-        if(draw){
-            SetNums();
-            DrawAll();
-        }
+        if(draw) DrawAll();
+        SetNums();
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -255,6 +265,10 @@ public class Form extends javax.swing.JFrame {
         curr_pos = 0;
     }//GEN-LAST:event_jTextField1MouseClicked
 
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        draw = jCheckBox2.isSelected();
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
     private void GetNums(){
         String strArr[] = jTextField1.getText().split(" ");
         numArr = new int[strArr.length];
@@ -292,7 +306,6 @@ public class Form extends javax.swing.JFrame {
                     tmp_line[0] = i;
                     tmp_line[1] = j;
                     linesList.add(tmp_line);
-                    //JOptionPane.showMessageDialog(null, i + "  " + j);
                       
                     mainList.add(numArr.clone()); //ADD
                   }
@@ -311,6 +324,8 @@ public class Form extends javax.swing.JFrame {
     }
     
     private void DrawAll () {
+        if(!draw) return;
+        
         for(int i = 0; i < mainList.size(); i++){
             for(int q = 0; q < numArr.length; q++){
                 g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
@@ -320,14 +335,14 @@ public class Form extends javax.swing.JFrame {
             if(i < linesList.size()){
                 g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
                 g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
-            }
+            }            
         }
         
         jPanel1.revalidate();
     }
     
     private void DrawCurr(int step) {
-           for(int i = 0; i < step; i++){
+        for(int i = 0; i < step; i++){
             for(int q = 0; q < numArr.length; q++){
                 g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
                 g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
@@ -373,6 +388,7 @@ public class Form extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
