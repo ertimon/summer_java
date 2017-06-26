@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
@@ -7,8 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import java.util.Scanner;
 import javax.swing.JFileChooser;
@@ -152,15 +151,17 @@ public class Form extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(jTextField1.getText().length() == 0){
-            JOptionPane.showMessageDialog(null, "Введи массив, сука!");
+            JOptionPane.showMessageDialog(null, "Введите массив");
             return;
         }
         
         mainList.clear();
+        linesList.clear();
         jPanel1.removeAll();
         jPanel1.revalidate();
         
         if (g2 == null) g2 = (Graphics2D) jPanel1.getGraphics();
+        g2.setStroke(new BasicStroke(2));
         jPanel1.update(g2);
         
         GetNums();
@@ -171,7 +172,6 @@ public class Form extends javax.swing.JFrame {
             SetNums();
             DrawAll();
         }
-        g2.setColor(Color.red); //WTF
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -292,6 +292,7 @@ public class Form extends javax.swing.JFrame {
                     tmp_line[0] = i;
                     tmp_line[1] = j;
                     linesList.add(tmp_line);
+                    //JOptionPane.showMessageDialog(null, i + "  " + j);
                       
                     mainList.add(numArr.clone()); //ADD
                   }
@@ -311,21 +312,15 @@ public class Form extends javax.swing.JFrame {
     
     private void DrawAll () {
         for(int i = 0; i < mainList.size(); i++){
-            for(int q = 0; q < mainList.get(i).length; q++){
-                //circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + 30*i , radius, radius);
-
-                /**label = new JLabel(Integer.toString(mainList.get(i)[q]), JLabel.CENTER);
-                label.setVisible(true);
-                label.setSize(50, 200);
-                label.setLocation(-10 + 30*q, -85 + 30*i);*/
-                
+            for(int q = 0; q < numArr.length; q++){
                 g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
                 g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
-                //jPanel1.add(label);
             }
             
-            if(i < linesList.size())
-                g2.drawLine(13 + linesList.get(i)[0]*40, 24 + linesList.get(i)[0]*40, linesList.get(i)[1]*40, 10 + linesList.get(i)[1]*18);
+            if(i < linesList.size()){
+                g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
+                g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
+            }
         }
         
         jPanel1.revalidate();
@@ -333,17 +328,14 @@ public class Form extends javax.swing.JFrame {
     
     private void DrawCurr(int step) {
            for(int i = 0; i < step; i++){
-            for(int q = 0; q < mainList.get(i).length; q++){
-                circbuffer = new Ellipse2D.Float(5 + q*(radius+10), 5 + 30*i , radius, radius);
-
-                /**label = new JLabel(Integer.toString(mainList.get(i)[q]), JLabel.CENTER);
-                label.setVisible(true);
-                label.setSize(50, 200);
-                label.setLocation(-10 + 30*q, -85 + 30*i);*/
-                
-                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 30*i);
-                g2.draw(circbuffer);
-                //jPanel1.add(label);
+            for(int q = 0; q < numArr.length; q++){
+                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
+                g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
+            }
+            
+            if(i < step - 1){
+                g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
+                g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
             }
         }
         
