@@ -7,7 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.Scanner;
 import javax.swing.JFileChooser;
@@ -28,10 +29,10 @@ public class Form extends javax.swing.JFrame {
     
     //Список состояний массива
     private List<int[]> mainList = new ArrayList<int[]>();
-    //Цвета
-    private List<Color> colorList = new ArrayList<Color>();
+    //Линии, координаты которых основаны на индексах массива
+    private List<int[]> linesList = new ArrayList<int[]>();
     
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -274,7 +275,7 @@ public class Form extends javax.swing.JFrame {
     
     private void quickSort(int left, int right) {
       int i = left, j = right;
-      int tmp;
+      int tmp, tmp_line[] = new int[2];
       int pivot = numArr[(left + right) / 2];
 
       /* partition */
@@ -287,8 +288,13 @@ public class Form extends javax.swing.JFrame {
                   tmp = numArr[i];
                   numArr[i] = numArr[j];
                   numArr[j] = tmp;
-                  if(i != j)
+                  if(i != j){
+                    tmp_line[0] = i;
+                    tmp_line[1] = j;
+                    linesList.add(tmp_line);
+                      
                     mainList.add(numArr.clone()); //ADD
+                  }
                   i++;
                   j--;
             }
@@ -313,10 +319,13 @@ public class Form extends javax.swing.JFrame {
                 label.setSize(50, 200);
                 label.setLocation(-10 + 30*q, -85 + 30*i);*/
                 
-                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 30*i);
-                g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 30*i , radius, radius));
+                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
+                g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
                 //jPanel1.add(label);
             }
+            
+            if(i < linesList.size())
+                g2.drawLine(13 + linesList.get(i)[0]*40, 24 + linesList.get(i)[0]*40, linesList.get(i)[1]*40, 10 + linesList.get(i)[1]*18);
         }
         
         jPanel1.revalidate();
