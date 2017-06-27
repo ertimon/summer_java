@@ -23,6 +23,7 @@ public class Visualisation extends JPanel{
         super.paintComponent(g);
         
         Graphics2D g2d = (Graphics2D) g;
+        super.revalidate();
         
         for(int i = 0; i < mainList.size(); i++){
             for(int q = 0; q < mainList.get(i).length; q++){
@@ -36,6 +37,7 @@ public class Visualisation extends JPanel{
             }            
         }
         
+        //super.update(g);
         //super.revalidate();
         //super.repaint();
     }

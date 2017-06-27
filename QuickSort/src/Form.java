@@ -1,7 +1,6 @@
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 
 import java.awt.Graphics2D;
 import java.io.File;
@@ -17,7 +16,7 @@ public class Form extends javax.swing.JFrame {
         initComponents();
     }
     
-    private Graphics2D g2;
+    public Graphics2D g2;
     // ???
     
     int numArr[], curr_pos = 0;
@@ -47,6 +46,16 @@ public class Form extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -167,6 +176,7 @@ public class Form extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Введите массив");
             return;
         }
+        jPanel1.update(g2);
         
         mainList.clear();
         linesList.clear();
@@ -176,7 +186,7 @@ public class Form extends javax.swing.JFrame {
         start = System.nanoTime();
         quickSort(0, numArr.length - 1);
         end = System.nanoTime();
-        Draw.repaint();
+        Draw.paintComponents(g2);
         SetNums();
             
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -248,6 +258,14 @@ public class Form extends javax.swing.JFrame {
         draw = jCheckBox2.isSelected();
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+        Draw.repaint();
+    }//GEN-LAST:event_formWindowStateChanged
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        g2 = (Graphics2D) jPanel1.getGraphics();
+    }//GEN-LAST:event_formComponentShown
+   
     private void GetNums(){
         String strArr[] = jTextField1.getText().split(" ");
         numArr = new int[strArr.length];
@@ -263,7 +281,7 @@ public class Form extends javax.swing.JFrame {
             result += Integer.toString(numArr[i]) + " ";
         jTextField1.setText(result);    
         
-       JOptionPane.showMessageDialog(null, "Время сортировки: " + (end - start)/1000 + " мс" );
+       //JOptionPane.showMessageDialog(null, "Время сортировки: " + (end - start)/1000 + " мс" );
     }
     
     private void quickSort(int left, int right) {
