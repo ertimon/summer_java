@@ -30,8 +30,10 @@ public class Visualisation extends JPanel{
         
         for(int i = 0; i < mainList.size(); i++){
             for(int q = 0; q < mainList.get(i).length; q++){
-                g2d.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
-                g2d.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
+                /**g2d.drawString(, 12 + 30*q, 20 + 40*i);
+                g2d.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));*/
+                
+                Krug(Integer.toString(mainList.get(i)[q]), q, i);
             }
             
             if(i < linesList.size()){

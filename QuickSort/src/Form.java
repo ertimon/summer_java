@@ -182,7 +182,7 @@ public class Form extends javax.swing.JFrame {
         linesList.clear();
         
         GetNums();
-        //mainList.add(numArr.clone());
+        mainList.add(numArr.clone());
         start = System.nanoTime();
         quickSort(0, numArr.length - 1);
         end = System.nanoTime();
