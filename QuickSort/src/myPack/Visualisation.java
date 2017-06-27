@@ -14,16 +14,19 @@ public class Visualisation extends JPanel{
     
     final int radius = 20;
     
+    public Graphics2D g2d;
+    
     public Visualisation(List<int[]> a, List<int[]> b){
         mainList = a;
         linesList = b;
     }
     
+    @Override
     public void paintComponents(Graphics g){
         super.paintComponent(g);
         
-        Graphics2D g2d = (Graphics2D) g;
-        super.revalidate();
+        g2d = (Graphics2D) g;
+        //super.revalidate();
         
         for(int i = 0; i < mainList.size(); i++){
             for(int q = 0; q < mainList.get(i).length; q++){
@@ -39,6 +42,13 @@ public class Visualisation extends JPanel{
         
         //super.update(g);
         //super.revalidate();
+        //super.repaint();
+    }
+    
+    public void Krug(String str, int x, int y){
+        g2d.draw(new Ellipse2D.Float(5 + (radius+10)*x, 5 + 40*y, radius, radius));
+        g2d.drawString(str, 12 + 30*x, 20 + 40*y);
+        
         //super.repaint();
     }
 }

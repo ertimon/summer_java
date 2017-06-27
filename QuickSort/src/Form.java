@@ -182,13 +182,13 @@ public class Form extends javax.swing.JFrame {
         linesList.clear();
         
         GetNums();
-        mainList.add(numArr.clone());
+        //mainList.add(numArr.clone());
         start = System.nanoTime();
         quickSort(0, numArr.length - 1);
         end = System.nanoTime();
         Draw.paintComponents(g2);
         SetNums();
-            
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
