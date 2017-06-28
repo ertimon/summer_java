@@ -9,28 +9,28 @@ import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
-import myPack.Visualisation;
-        
+import myPack.Vizualization;
+
 public class Form extends javax.swing.JFrame {
     public Form() {
         initComponents();
     }
-    
+
     public Graphics2D g2;
     // ???
-    
+
     int numArr[], curr_pos = 0;
     boolean draw = true;
     long start, end;
-    
+
     //Список состояний массива
     private List<int[]> mainList = new ArrayList<int[]>();
     //Линии, координаты которых основаны на индексах массива
     private List<int[]> linesList = new ArrayList<int[]>();
-        
-    public Visualisation Draw = new Visualisation(mainList, linesList);
+
+    public Vizualization Draw = new Vizualization(mainList, linesList);
     //Draw.paintComponents(???);
-    
+
     //@SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -58,7 +58,7 @@ public class Form extends javax.swing.JFrame {
         });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
+                //formWindowOpened(evt);
             }
         });
 
@@ -81,12 +81,12 @@ public class Form extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1411, Short.MAX_VALUE)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 1411, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 728, Short.MAX_VALUE)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 728, Short.MAX_VALUE)
         );
 
         jButton2.setText("File");
@@ -130,42 +130,42 @@ public class Form extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jCheckBox2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jCheckBox1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jCheckBox2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButton1)
+                                        .addComponent(jButton2)
+                                        .addComponent(jCheckBox1)
+                                        .addComponent(jButton3)
+                                        .addComponent(jButton4)
+                                        .addComponent(jCheckBox2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pack();
@@ -177,10 +177,10 @@ public class Form extends javax.swing.JFrame {
             return;
         }
         jPanel1.update(g2);
-        
+
         mainList.clear();
         linesList.clear();
-        
+
         GetNums();
         mainList.add(numArr.clone());
         start = System.nanoTime();
@@ -188,21 +188,21 @@ public class Form extends javax.swing.JFrame {
         end = System.nanoTime();
         Draw.paintComponents(g2);
         SetNums();
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
-        
+
         try(Scanner in = new Scanner(f))
         {
             jTextField1.setText(in.nextLine());
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
-        } 
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
@@ -222,20 +222,20 @@ public class Form extends javax.swing.JFrame {
         }else{
             jButton3.setEnabled(true);
         }
-        
+
         if(curr_pos + 1> mainList.size())
         {
             jButton4.setEnabled(false);
             jButton3.setEnabled(true);
-            
+
             SetNums();
-            
+
             return;
         }
-        
+
         curr_pos++;
         //Draw.repaint_curr(curr_pos);
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -245,7 +245,7 @@ public class Form extends javax.swing.JFrame {
             return;
         }
         jButton4.setEnabled(true);
-        
+
         curr_pos--;
         //Draw.repaint_curr(curr_pos);
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -265,7 +265,7 @@ public class Form extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         g2 = (Graphics2D) jPanel1.getGraphics();
     }//GEN-LAST:event_formComponentShown
-   
+
     private void GetNums(){
         String strArr[] = jTextField1.getText().split(" ");
         numArr = new int[strArr.length];
@@ -273,87 +273,123 @@ public class Form extends javax.swing.JFrame {
             numArr[i] = Integer.parseInt(strArr[i]);
         }
     }
-    
+
     private void SetNums(){
         String result = "";
-        
+
         for(int i = 0; i < numArr.length; i++)
             result += Integer.toString(numArr[i]) + " ";
-        jTextField1.setText(result);    
-        
-       //JOptionPane.showMessageDialog(null, "Время сортировки: " + (end - start)/1000 + " мс" );
-    }
-    
-    private void quickSort(int left, int right) {
-      int i = left, j = right;
-      int tmp, tmp_line[] = new int[2];
-      int pivot = numArr[(left + right) / 2];
+        jTextField1.setText(result);
 
-      /* partition */
-      while (i <= j) {
-            while (numArr[i] < pivot)
-                  i++;
-            while (numArr[j] > pivot)
-                  j--;
-            if (i <= j) {
-                  tmp = numArr[i];
-                  numArr[i] = numArr[j];
-                  numArr[j] = tmp;
-                  if(i != j){
-                    tmp_line[0] = i;
-                    tmp_line[1] = j;
-                    linesList.add(tmp_line);
-                      
-                    mainList.add(numArr.clone()); //ADD
-                  }
-                  i++;
-                  j--;
+        //JOptionPane.showMessageDialog(null, "Время сортировки: " + (end - start)/1000 + " мс" );
+    }
+
+    int lev=0;
+    private void quickSort(int left, int right) {
+
+            if (left >= right)
+                return;
+            int i = left, j = right;
+            int count=0;
+            int cur = (i+j) / 2;
+            while (i < j) {
+                while ((i < cur) && (numArr[i] <= numArr[cur])) {
+                    i++;
+                }
+                while ((j > cur) && (numArr[cur] <= numArr[j])) {
+                    j--;
+                }
+                if (i < j) {
+                    count++;
+                    int temp = numArr[i];
+                    numArr[i] = numArr[j];
+                    numArr[j] = temp;
+                    if (i == cur)
+                        cur = j;
+                    else if (j == cur)
+                        cur = i;
+                }
             }
-      }
 
       /* recursion */
-      if (left < j){
-            quickSort(left, j);
-      }
-      if (i < right){
-            quickSort(i, right);
-      }
+
+        if (left < cur-1 ){
+            int[] arr = new int [cur-left+lev];
+            int k=0;
+            int otstup1=lev;
+            lev++;
+            for (int m = left; m < cur; m++)
+            {
+                while (otstup1>0)
+                {
+                    arr[k] = 100000;
+                    k++;
+                    otstup1--;
+                }
+                arr[k] = numArr[m];
+                k++;
+            }
+            if (count >0)
+                mainList.add(arr.clone());
+            quickSort(left, cur-1);
+        }
+        if (right > cur+1){
+            int[] arr = new int [right-cur+lev];
+            int k=0;
+            int otstup2 = lev;
+            for (int m = cur+1; m < right+1; m++)
+            {
+                while (otstup2>0)
+                {
+                    arr[k] = 100000;
+                    k++;
+                    otstup2--;
+                }
+                arr[k] = numArr[m];
+                k++;
+            }
+            if (cur-1 == left)
+                lev++;
+            if (count>0)
+                mainList.add(arr.clone());
+            quickSort(cur+1, right);
+        }
     }
-    
+
     /**private void DrawAll () {
-        if(!draw) return;
-        
-        for(int i = 0; i < mainList.size(); i++){
-            for(int q = 0; q < numArr.length; q++){
-                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
-                g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
-            }
-            
-            if(i < linesList.size()){
-                g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
-                g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
-            }            
-        }
-        
-        jPanel1.revalidate();
-    }
-    
-    private void DrawCurr(int step) {
-        for(int i = 0; i < step; i++){
-            for(int q = 0; q < numArr.length; q++){
-                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
-                g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
-            }
-            
-            if(i < step - 1){
-                g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
-                g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
-            }
-        }
-        
-        jPanel1.revalidate();
-    }*/
-    
+     if(!draw) return;
+
+     for(int i = 0; i < mainList.size(); i++){
+     for(int q = 0; q < numArr.length; q++){
+     g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
+     g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
+     }
+
+     if(i < linesList.size()){
+     g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
+     g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
+     }
+     }
+
+     jPanel1.revalidate();
+     }
+
+     private void DrawCurr(int step) {
+     for(int i = 0; i < step; i++){
+     for(int q = 0; q < numArr.length; q++){
+     g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
+     g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
+     }
+
+     if(i < step - 1){
+     g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
+     g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
+     }
+     }
+
+     jPanel1.revalidate();
+     }*/
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -371,7 +407,7 @@ public class Form extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Form().setVisible(true);
