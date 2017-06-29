@@ -290,17 +290,17 @@ public class Form extends javax.swing.JFrame {
                 i++;
             while (numArr[j] > pivot)
                 j--;
-            if (i <= j) {
+            if (i <= j) { 
                 tmp = numArr[i];
                 numArr[i] = numArr[j];
                 numArr[j] = tmp;
-
+                
                 if(i != j){
                     tmp_line[0] = i;
                     tmp_line[1] = j;
                     tmp_line[2] = (left + right) / 2;
 
-                    linesList.add(tmp_line);
+                    linesList.add(tmp_line.clone());
                     mainList.add(numArr.clone()); //ADD
                 }
 
@@ -323,7 +323,7 @@ public class Form extends javax.swing.JFrame {
         
         for(int i = 0; i < step; i++){
             for(int q = 0; q < numArr.length; q++){
-                if(i > 0 && i < step - 1 && (q == linesList.get(i)[0] || q == linesList.get(i)[1] || q == linesList.get(i)[2])){
+                if(i < step - 1 && (q == linesList.get(i)[0] || q == linesList.get(i)[1] || q == linesList.get(i)[2])){
                     if(q == linesList.get(i)[2]){
                         g2.setStroke(new BasicStroke(2));
                         g2.setColor(Color.red);
