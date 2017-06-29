@@ -1,5 +1,3 @@
-package Main;
-
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,34 +9,27 @@ import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
-import myPack.*;
+import myPack.Vizualization;
 
 public class Form extends javax.swing.JFrame {
-    //Графон
-    private Graphics2D g2;
+    public Form() {
+        initComponents();
+    }
+
+    public Graphics2D g2;
+    // ???
+
+    int numArr[], curr_pos = 0;
+    boolean draw = true;
+    long start, end;
 
     //Список состояний массива
     private List<int[]> mainList = new ArrayList<int[]>();
-
     //Линии, координаты которых основаны на индексах массива
-    //public List<int[]> linesList = new ArrayList<int[]>();
+    private List<int[]> linesList = new ArrayList<int[]>();
 
-    //Рисовалка
-    private Vizualization Draw = new Vizualization(mainList);
-
-    public Form() {
-        initComponents();
-
-        g2 = (Graphics2D) jPanel1.getGraphics();
-        jPanel1.validate();
-    }
-
-    private int numArr[], curr_pos = 0;
-    private boolean draw = true;
-    private long start, end;
-
-    //Сортировка
-    private Sort srt;
+    public Vizualization Draw = new Vizualization(mainList, linesList);
+    //Draw.paintComponents(???);
 
     //@SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -51,9 +42,31 @@ public class Form extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                //formWindowOpened(evt);
+            }
+        });
+
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
+            }
+        });
 
         jButton1.setText("GO");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -69,7 +82,7 @@ public class Form extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 1411, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,7 +97,6 @@ public class Form extends javax.swing.JFrame {
         });
 
         jCheckBox1.setText("Steps");
-        jCheckBox1.setEnabled(false);
         jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jCheckBox1StateChanged(evt);
@@ -107,6 +119,14 @@ public class Form extends javax.swing.JFrame {
             }
         });
 
+        jCheckBox2.setSelected(true);
+        jCheckBox2.setText("View");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,10 +138,12 @@ public class Form extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jCheckBox2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jCheckBox1)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,7 +161,8 @@ public class Form extends javax.swing.JFrame {
                                         .addComponent(jButton2)
                                         .addComponent(jCheckBox1)
                                         .addComponent(jButton3)
-                                        .addComponent(jButton4))
+                                        .addComponent(jButton4)
+                                        .addComponent(jCheckBox2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
@@ -154,19 +177,18 @@ public class Form extends javax.swing.JFrame {
             return;
         }
         jPanel1.update(g2);
+
         mainList.clear();
+        linesList.clear();
 
         GetNums();
         mainList.add(numArr.clone());
-
         start = System.nanoTime();
-        //==============//
-        srt.do_sort();
-        //==============//
+        quickSort(0, numArr.length - 1);
         end = System.nanoTime();
-
         Draw.paintComponents(g2);
         SetNums();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -233,7 +255,7 @@ public class Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1MouseClicked
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        //draw = jCheckBox2.isSelected();
+        draw = jCheckBox2.isSelected();
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
@@ -241,7 +263,7 @@ public class Form extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowStateChanged
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        //g2 = (Graphics2D) jPanel1.getGraphics();
+        g2 = (Graphics2D) jPanel1.getGraphics();
     }//GEN-LAST:event_formComponentShown
 
     private void GetNums(){
@@ -250,13 +272,9 @@ public class Form extends javax.swing.JFrame {
         for(int i = 0; i < strArr.length; i++){
             numArr[i] = Integer.parseInt(strArr[i]);
         }
-
-        srt = new Sort(numArr, mainList);
     }
 
     private void SetNums(){
-        numArr = srt.call_back();
-
         String result = "";
 
         for(int i = 0; i < numArr.length; i++)
@@ -265,6 +283,112 @@ public class Form extends javax.swing.JFrame {
 
         //JOptionPane.showMessageDialog(null, "Время сортировки: " + (end - start)/1000 + " мс" );
     }
+
+    int lev=0;
+    private void quickSort(int left, int right) {
+
+            if (left >= right)
+                return;
+            int i = left, j = right;
+            int count=0;
+            int cur = (i+j) / 2;
+            while (i < j) {
+                while ((i < cur) && (numArr[i] <= numArr[cur])) {
+                    i++;
+                }
+                while ((j > cur) && (numArr[cur] <= numArr[j])) {
+                    j--;
+                }
+                if (i < j) {
+                    count++;
+                    int temp = numArr[i];
+                    numArr[i] = numArr[j];
+                    numArr[j] = temp;
+                    if (i == cur)
+                        cur = j;
+                    else if (j == cur)
+                        cur = i;
+                }
+            }
+
+      /* recursion */
+
+        if (left < cur-1 ){
+            int[] arr = new int [cur-left+lev];
+            int k=0;
+            int otstup1=lev;
+            lev++;
+            for (int m = left; m < cur; m++)
+            {
+                while (otstup1>0)
+                {
+                    arr[k] = 100000;
+                    k++;
+                    otstup1--;
+                }
+                arr[k] = numArr[m];
+                k++;
+            }
+            if (count >0)
+                mainList.add(arr.clone());
+            quickSort(left, cur-1);
+        }
+        if (right > cur+1){
+            int[] arr = new int [right-cur+lev];
+            int k=0;
+            int otstup2 = lev;
+            for (int m = cur+1; m < right+1; m++)
+            {
+                while (otstup2>0)
+                {
+                    arr[k] = 100000;
+                    k++;
+                    otstup2--;
+                }
+                arr[k] = numArr[m];
+                k++;
+            }
+            if (cur-1 == left)
+                lev++;
+            if (count>0)
+                mainList.add(arr.clone());
+            quickSort(cur+1, right);
+        }
+    }
+
+    /**private void DrawAll () {
+     if(!draw) return;
+
+     for(int i = 0; i < mainList.size(); i++){
+     for(int q = 0; q < numArr.length; q++){
+     g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
+     g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
+     }
+
+     if(i < linesList.size()){
+     g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
+     g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
+     }
+     }
+
+     jPanel1.revalidate();
+     }
+
+     private void DrawCurr(int step) {
+     for(int i = 0; i < step; i++){
+     for(int q = 0; q < numArr.length; q++){
+     g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
+     g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
+     }
+
+     if(i < step - 1){
+     g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
+     g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
+     }
+     }
+
+     jPanel1.revalidate();
+     }*/
 
     public static void main(String args[]) {
         try {
@@ -297,6 +421,7 @@ public class Form extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
