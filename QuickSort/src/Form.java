@@ -169,13 +169,14 @@ public class Form extends javax.swing.JFrame {
         mainList.clear();
         linesList.clear();
         jPanel1.removeAll();
+        jPanel1.update(g2);
         jPanel1.revalidate();
         
         GetNums();
-        mainList.add(numArr.clone()); 
+        mainList.add(numArr.clone());
         quickSort(0, numArr.length - 1);
         
-        if(draw) DrawAll();
+        if(draw) Draw(mainList.size());
         SetNums();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -206,7 +207,7 @@ public class Form extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if(curr_pos == 0){
             draw = false;
-            jButton1ActionPerformed(null);
+            jButton1ActionPerformed(evt);
         }else{
             jButton3.setEnabled(true);
         }
@@ -230,7 +231,7 @@ public class Form extends javax.swing.JFrame {
         //jPanel1.repaint();
         
         curr_pos++;
-        DrawCurr(curr_pos);
+        Draw(curr_pos);
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -249,7 +250,7 @@ public class Form extends javax.swing.JFrame {
         //jPanel1.repaint();
         
         curr_pos--;
-        DrawCurr(curr_pos);
+        Draw(curr_pos);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
@@ -282,7 +283,6 @@ public class Form extends javax.swing.JFrame {
         int i = left, j = right;
         int tmp, tmp_line[] = new int[3];
         int pivot = numArr[(left + right) / 2];
-        tmp_line[2] = (left + right) / 2;
 
       /* partition */
         while (i <= j) {
@@ -294,13 +294,16 @@ public class Form extends javax.swing.JFrame {
                 tmp = numArr[i];
                 numArr[i] = numArr[j];
                 numArr[j] = tmp;
+
                 if(i != j){
                     tmp_line[0] = i;
                     tmp_line[1] = j;
-                    linesList.add(tmp_line);
+                    tmp_line[2] = (left + right) / 2;
 
+                    linesList.add(tmp_line);
                     mainList.add(numArr.clone()); //ADD
                 }
+
                 i++;
                 j--;
             }
@@ -315,22 +318,20 @@ public class Form extends javax.swing.JFrame {
         }
     }
     
-    private void DrawAll () {
-        if(!draw) return;
+    private void Draw (int step) {
+        if(!draw && !jCheckBox2.isSelected()) return;
         
-        for(int i = 0; i < mainList.size(); i++){
+        for(int i = 0; i < step; i++){
             for(int q = 0; q < numArr.length; q++){
-                if(i < mainList.size() - 1 && (q == linesList.get(i)[0] || q == linesList.get(i)[1] || q == linesList.get(i)[2])){
-                    g2.setStroke(new BasicStroke(2));
-                    
-                    if(q == linesList.get(i)[0])
+                if(i > 0 && i < step - 1 && (q == linesList.get(i)[0] || q == linesList.get(i)[1] || q == linesList.get(i)[2])){
+                    if(q == linesList.get(i)[2]){
+                        g2.setStroke(new BasicStroke(2));
                         g2.setColor(Color.red);
-                    
-                    if(q == linesList.get(i)[1])
+                    }else{
                         g2.setColor(Color.blue);
-
-                    if(q == linesList.get(i)[2])
-                        g2.setColor(Color.green);
+                        g2.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
+                        g2.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
+                    }
                 }
 
                 g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
@@ -342,32 +343,6 @@ public class Form extends javax.swing.JFrame {
         }
         
         jPanel1.revalidate();
-    }
-    
-    private void DrawCurr(int step) {
-        for(int i = 0; i < step; i++) {
-            for (int q = 0; q < numArr.length; q++) {
-                if (i < step - 1 && (q == linesList.get(i)[0] || q == linesList.get(i)[1] || q == linesList.get(i)[2])) {
-                    g2.setStroke(new BasicStroke(2));
-
-                    if (q == linesList.get(i)[0])
-                        g2.setColor(Color.red);
-
-                    if (q == linesList.get(i)[1])
-                        g2.setColor(Color.blue);
-
-                    if (q == linesList.get(i)[2])
-                        g2.setColor(Color.green);
-                }
-
-                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30 * q, 20 + 40 * i);
-                g2.draw(new Ellipse2D.Float(5 + q * (radius + 10), 5 + 40 * i, radius, radius));
-
-                g2.setStroke(new BasicStroke(1));
-                g2.setColor(Color.BLACK);
-            }
-            jPanel1.revalidate();
-        }
     }
     
     public static void main(String args[]) {
