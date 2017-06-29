@@ -1,5 +1,6 @@
 package myPack;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -9,10 +10,9 @@ import javax.swing.JPanel;
 public class Vizualization extends JPanel{
     //Список состояний массива
     private List<int[]> mainList;
-    //Линии, координаты которых основаны на индексах массива
-    //private List<int[]> linesList;
-
+    
     final int radius = 20;
+    final BasicStroke[] stroke = {new BasicStroke(1), new BasicStroke(2), new BasicStroke(3)};
 
     public Graphics2D g2d;
 
@@ -25,15 +25,24 @@ public class Vizualization extends JPanel{
         super.paintComponent(g);
 
         g2d = (Graphics2D) g;
-        //JOptionPane.showMessageDialog(null, mainList.size());
+        g2d.setStroke(new BasicStroke(1));
 
         for(int i = 0; i < mainList.size(); i++){
             for(int q = 0; q < mainList.get(i).length; q++){
-                if (mainList.get(i)[q]!=100000) Krug(Integer.toString(mainList.get(i)[q]), q, i);
+                if (mainList.get(i)[q]!=100000)
+                    Krug(Integer.toString(mainList.get(i)[q]), q, i);
             }
         }
 
         super.revalidate();
+    }
+    
+    public void paintOne(int numArr[], int tmp){
+        g2d.setStroke(stroke[1]);
+        
+        for(int q = 0; q < numArr.length; q++){
+            Krug(Integer.toString(numArr[q]), q, tmp);
+        }
     }
 
     public void Krug(String str, int x, int y){

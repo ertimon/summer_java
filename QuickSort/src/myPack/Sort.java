@@ -10,13 +10,20 @@ import java.util.List;
 public class Sort extends Form{
     private int numArr[];
     private List ArrList;
-    private int first, last, lev = 0;
+    private int first = 0, last, lev = 0;
+    private boolean kostyl = true;
 
     public Sort(int Arr[], List a){
         numArr = Arr;
         ArrList = a;
-        first = 0;
         last = Arr.length - 1;
+    }
+    
+    public Sort(int Arr[], boolean b){
+        numArr = Arr;
+        ArrList = null;
+        last = Arr.length - 1;
+        kostyl = b;
     }
 
     public void do_sort(){
@@ -26,8 +33,14 @@ public class Sort extends Form{
     public int[] call_back(){
         return numArr;
     }
+    
+    public int get_lev(){
+        return lev;
+    }
 
     private void  quickSort(int left, int right) {
+        lev++;
+        
         if (left >= right)
             return;
         int i = left, j = right;
@@ -51,13 +64,17 @@ public class Sort extends Form{
         }
         if (left<cur)
         {
-            numArr[cur] = 100000;
-            ArrList.add(numArr.clone());
+            if(kostyl){
+                numArr[cur] = 100000;
+                ArrList.add(numArr.clone());
+            }
             quickSort(left, cur-1);
         }
         if (right > cur){
-            numArr[cur] = 100000;
-            ArrList.add(numArr.clone());
+            if(kostyl){
+                numArr[cur] = 100000;
+                ArrList.add(numArr.clone());
+            }
             quickSort(cur+1, right);
         }
 
