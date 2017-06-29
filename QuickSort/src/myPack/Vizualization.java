@@ -26,16 +26,11 @@ public class Vizualization extends JPanel{
 
         g2d = (Graphics2D) g;
         //JOptionPane.showMessageDialog(null, mainList.size());
-        
+
         for(int i = 0; i < mainList.size(); i++){
             for(int q = 0; q < mainList.get(i).length; q++){
                 if (mainList.get(i)[q]!=100000) Krug(Integer.toString(mainList.get(i)[q]), q, i);
             }
-
-            /**if(i < linesList.size()){
-                g2d.drawLine(15 + linesList.get(i)[0]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[1]*30, (i+1)*43);
-                g2d.drawLine(15 + linesList.get(i)[1]*30, 25*(i+1) + i*15, 15 + linesList.get(i)[0]*30, (i+1)*43);
-            }*/
         }
 
         super.revalidate();
