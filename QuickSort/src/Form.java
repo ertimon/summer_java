@@ -24,7 +24,7 @@ public class Form extends javax.swing.JFrame {
     private Ellipse2D circbuffer;
     private Graphics2D g2;
     
-    final int radius = 40;
+    final int radius = 20;
     final int step = 25;
 
     int numArr[], curr_pos = 0;
@@ -329,14 +329,14 @@ public class Form extends javax.swing.JFrame {
                         g2.setColor(Color.red);
                     }else{
                         g2.setColor(Color.blue);
-                        g2.drawLine(40 + linesList.get(i)[0]*50, 40*i+40 + i*21, 50 + linesList.get(i)[1]*49, 70 + 60*i-2 );
-                        g2.drawLine(40 + linesList.get(i)[1]*50, 40*i+40 + i*21, 50 + linesList.get(i)[0]*49-1, 70 + 60*i-2);
-
+                        
+                        g2.drawLine(-5 + linesList.get(i)[0]*(radius+10) + radius, 5 + 40*i + radius, -5 + linesList.get(i)[1]*(radius+10) + radius, 5 + (i+1)*40);
+                        g2.drawLine(-5 + linesList.get(i)[1]*(radius+10) + radius, 5 + 40*i + radius, -5 + linesList.get(i)[0]*(radius+10) + radius, 5 + (i+1)*40);
                     }
                 }
 
-                g2.drawString(Integer.toString(mainList.get(i)[q]), 33 + q*(radius+10), 30 + 60*i);
-                g2.draw(new Ellipse2D.Float(20 + q*(radius+10), 5 + 60*i , radius, radius));
+                g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
+                g2.draw(new Ellipse2D.Float(5 + q*(radius+10), 5 + 40*i , radius, radius));
                 
                 g2.setStroke(new BasicStroke(1));
                 g2.setColor(Color.BLACK);
