@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
+import myPack.Sort;
+
 public class Form extends javax.swing.JFrame {
 
     public Form() {
@@ -34,6 +36,8 @@ public class Form extends javax.swing.JFrame {
     private List<int[]> mainList = new ArrayList<int[]>();
     //Обводка
     private List<int[]> linesList = new ArrayList<int[]>();
+    //Сортировка
+    private Sort srt;
     
     //@SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -174,7 +178,9 @@ public class Form extends javax.swing.JFrame {
         
         GetNums();
         mainList.add(numArr.clone());
-        quickSort(0, numArr.length - 1);
+        srt = new Sort(mainList, linesList);
+        srt.quickSort(numArr, 0, numArr.length - 1);
+        //quickSort(0, numArr.length - 1);
         
         if(draw) Draw(mainList.size());
         SetNums();
@@ -262,11 +268,17 @@ public class Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void GetNums(){
-        String strArr[] = jTextField1.getText().split(" ");
-        numArr = new int[strArr.length];
-        for(int i = 0; i < strArr.length; i++){
-            numArr[i] = Integer.parseInt(strArr[i]);
-        }
+        String strArr[] = jTextField1.getText().split(" "); 
+
+        numArr = new int[strArr.length]; 
+        for (int i = 0; i < strArr.length; i++) { 
+            try{ 
+                numArr[i] = Integer.parseInt(strArr[i]); 
+            }catch(NumberFormatException a){ 
+                JOptionPane.showMessageDialog(null, "Некорректный массив"); 
+                System.exit(1); 
+            } 
+        } 
     }
     
     private void SetNums(){
@@ -279,12 +291,11 @@ public class Form extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(null, "Массив отсортирован, наслаждайся!");
     }
     
-    private void quickSort(int left, int right) {
+    /*private void quickSort(int left, int right) {
         int i = left, j = right;
         int tmp, tmp_line[] = new int[3];
         int pivot = numArr[(left + right) / 2];
 
-      /* partition */
         while (i <= j) {
             while (numArr[i] < pivot)
                 i++;
@@ -309,14 +320,13 @@ public class Form extends javax.swing.JFrame {
             }
         }
 
-      /* recursion */
         if (left < j){
             quickSort(left, j);
         }
         if (i < right){
             quickSort(i, right);
         }
-    }
+    }*/
     
     private void Draw (int step) {
         if(!draw && !jCheckBox2.isSelected()) return;
