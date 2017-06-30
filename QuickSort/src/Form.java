@@ -325,14 +325,17 @@ public class Form extends javax.swing.JFrame {
             for(int q = 0; q < numArr.length; q++){
                 if(i < step - 1 && (q == linesList.get(i)[0] || q == linesList.get(i)[1] || q == linesList.get(i)[2])){
                     if(q == linesList.get(i)[2]){
-                        g2.setStroke(new BasicStroke(2));
                         g2.setColor(Color.red);
+                        g2.setStroke(new BasicStroke(2));
                     }else{
                         g2.setColor(Color.blue);
                         
                         g2.drawLine(-5 + linesList.get(i)[0]*(radius+10) + radius, 5 + 40*i + radius, -5 + linesList.get(i)[1]*(radius+10) + radius, 5 + (i+1)*40);
                         g2.drawLine(-5 + linesList.get(i)[1]*(radius+10) + radius, 5 + 40*i + radius, -5 + linesList.get(i)[0]*(radius+10) + radius, 5 + (i+1)*40);
+                        
+                        g2.setStroke(new BasicStroke(2));
                     }
+
                 }
 
                 g2.drawString(Integer.toString(mainList.get(i)[q]), 12 + 30*q, 20 + 40*i);
